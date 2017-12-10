@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: publisher-registration-api-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: publisher-registration-api
+    spec:
+      containers:
+      - name: pra-container
+        image: registry.zanox.com/publisher-registration-api
+        ports:
+        - name: pra-port
+          containerPort: 80

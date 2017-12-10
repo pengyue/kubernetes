@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: user-validation-db-deployment
+spec:
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        name: user-validation-db
+    spec:
+      containers:
+      - name: user-validation-db-container
+        image: pengyue/ms-user-validation
+        ports:
+        - name: ms-nv-port
+          containerPort: 80
+        env:
+        - name: MYSQL_HOST
+          value: db-service
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: rootPassword
+        - name: MYSQL_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: database

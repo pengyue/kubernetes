@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: qp-ms-settings.godepth.com
+  labels:
+    app: qp-ms-settings
+spec:
+  containers:
+  - name: qp-ms-settings-demo
+    image: pengyue/qp-ms-settings
+    ports:
+    - name: php-app-ports
+      containerPort: 4000

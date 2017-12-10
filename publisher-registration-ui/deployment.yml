@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: publisher-registration-ui-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: publisher-registration-ui
+    spec:
+      containers:
+      - name: pru-container
+        image: registry.zanox.com/publisher-registration-ui
+        ports:
+        - name: pru-port
+          containerPort: 80
+        env:
+          - name: environment
+            value: qa
+          - name: PUBLISHERREGISTRATION_UI_HOST
+            value: publisher-registration-ui-service

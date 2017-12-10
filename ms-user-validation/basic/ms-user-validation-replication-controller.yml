@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: user-validation-rc
+spec:
+  replicas: 2
+  selector:
+    app: user-validation
+  template:
+    metadata:
+      labels:
+        app: user-validation
+    spec:
+      containers:
+      - name: user-validation-rc-container
+        image: pengyue/ms-user-validation
+        ports:
+        - name: ms-uv-port
+          containerPort: 80

@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: user-validation-ingress-rules
+  namespace: test
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /api/doc
+        backend:
+          serviceName: user-validation-service
+          servicePort: 80

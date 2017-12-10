@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: user-validation-deployment
+  labels:
+    app: user-validation
+  namespace: test
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: user-validation
+    spec:
+      containers:
+      - name: user-validation-container
+        image: pengyue/ms-user-validation
+        ports:
+        - name: ms-nv-port
+          containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: ms-nv-port
+          initialDelaySeconds: 15
+          timeoutSeconds: 30

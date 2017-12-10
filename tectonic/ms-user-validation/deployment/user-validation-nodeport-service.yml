@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-validation-service
+spec:
+  ports:
+  - port: 80
+    nodePort: 30080
+    targetPort: ms-uv-port
+    protocol: TCP
+  selector:
+    app: user-validation
+  type: LoadBalancer
