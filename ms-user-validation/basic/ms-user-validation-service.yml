@@ -8,5 +8,5 @@ spec:
     targetPort: ms-uv-port
     protocol: TCP
   selector:
-    app: user-validation
+    k8s-app: user-validation
   type: LoadBalancer

@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: user-validation
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+  labels:
+    k8s-app: user-validation-ingress
+spec:
+  rules:
+  - host: user-validation.home
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: user-validation-lb-service
+          servicePort: 30080

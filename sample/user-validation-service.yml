@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-validation
+  labels:
+    k8s-app: user-validation-service
+spec:
+  ports:
+  - port: 30080
+    targetPort: ms-nv-port
+    protocol: TCP
+  selector:
+    k8s-app: user-validation
