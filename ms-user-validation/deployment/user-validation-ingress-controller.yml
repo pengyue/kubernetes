@@ -1,37 +1,31 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: user-validation-lb-deployment
-  labels:
-    k8s-app: user-validation-lb-deployment
+  name: user-validation-lb
 spec:
   replicas: 1
   template:
     metadata:
-      name: user-validation-lb-deployment
+      name: user-validation-lb
       labels:
-        k8s-app: user-validation-lb-deployment
+        k8s-app: user-validation-lb
     spec:
       containers:
       - image: gcr.io/google_containers/nginx-ingress-controller:0.8.3
-        name: user-validation-lb-deployment
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: 10254
-            scheme: HTTP
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 10254
-            scheme: HTTP
-          initialDelaySeconds: 10
-          timeoutSeconds: 1
+        name: user-validation-lb
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
           hostPort: 80
         - containerPort: 443
           hostPort: 443
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 10254
+            scheme: HTTP
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
         env:
           - name: POD_NAME
             valueFrom:
@@ -43,16 +37,19 @@ spec:
                 fieldPath: metadata.namespace
         args:
         - /nginx-ingress-controller
-        - --default-backend-service=$(POD_NAMESPACE)/user-validation
+        - --default-backend-service=$(POD_NAMESPACE)/nginx-default-backend
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-validation-lb-service
+  name: user-validation-lb
 spec:
+  type: LoadBalancer
+  selector:
+    k8s-app: user-validation-lb
   ports:
   - port: 80
     targetPort: 80
-  selector:
-    k8s-app: user-validation-lb-deployment
+    port: 443
+    targetPort: 443

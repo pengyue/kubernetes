@@ -6,8 +6,8 @@ metadata:
     k8s-app: user-validation-service
 spec:
   ports:
-  - port: 30080
-    targetPort: ms-nv-port
+  - port: 80
+    targetPort: 80
     protocol: TCP
   selector:
     k8s-app: user-validation

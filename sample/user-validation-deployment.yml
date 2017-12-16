@@ -15,14 +15,23 @@ spec:
       - name: user-validation
         image: pengyue/ms-user-validation
         ports:
-        - name: ms-uv-port
-          containerPort: 80
+          - containerPort: 80
+          - containerPort: 443
         livenessProbe:
           httpGet:
-            path: /api/doc
-            port: ms-nv-port
-          initialDelaySeconds: 3
-          periodSeconds: 5
-          timeoutSeconds: 30
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
           successThreshold: 1
           failureThreshold: 3

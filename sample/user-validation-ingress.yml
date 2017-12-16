@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: user-validation
   annotations:
-    ingress.kubernetes.io/rewrite-target: /
-  labels:
-    k8s-app: user-validation-ingress
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   rules:
   - host: user-validation.home
@@ -13,5 +12,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: user-validation-lb-service
-          servicePort: 30080
+          serviceName: user-validation
+          servicePort: 80
